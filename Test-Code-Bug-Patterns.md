@@ -55,8 +55,8 @@
 ### JUnit3 에서 약속된 메소드 명이 잘못된 경우
 R1 S2, S6 P1
 
-[ErrorProne - JUnit4ClassUsedInJUnit3](http://errorprone.info/bugpattern/JUnit4ClassUsedInJUnit3)
-[ErrorProne - JUnitAmbiguousTestClass](http://errorprone.info/bugpattern/JUnitAmbiguousTestClass)
+- [ErrorProne - JUnit4ClassUsedInJUnit3](http://errorprone.info/bugpattern/JUnit4ClassUsedInJUnit3)
+- [ErrorProne - JUnitAmbiguousTestClass](http://errorprone.info/bugpattern/JUnitAmbiguousTestClass)
 
 ### JDK9 로 테스트 코드를 컴파일했을 때 오류가 나는 Mockito code pattern 을 사용한 경우
 
