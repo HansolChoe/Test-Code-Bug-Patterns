@@ -39,7 +39,7 @@
 ### JUnit3 에서 setUp()이 오버라이드되어 있으나, super.setUp() 을 호출하지 않음
 **구성 요소** : R1 S2 P3
 
-[FindBugs - IJU: TestCase defines setUp that doesn't call super.setUp() (IJU_SETUP_NO_SUPER)](http://findbugs.sourceforge.net/bugDescriptions.html#IJU_SETUP_NO_SUPER)
+- [FindBugs - IJU: TestCase defines setUp that doesn't call super.setUp() (IJU_SETUP_NO_SUPER)](http://findbugs.sourceforge.net/bugDescriptions.html#IJU_SETUP_NO_SUPER)
 
 ### JUnit4 에서 setUp()을 정의하고 @Before Annotation이 없는 경우
 **구성 요소** : R1 S2 P4
@@ -86,8 +86,8 @@ R1 S6 P3
 ### JUnit4 에서 tearDown()을 정의하고 @After Annotation 이 없는 경우
 R1 S6 P4
 
-[PMD - JUnit4TestShouldUseAfterAnnotation](https://pmd.github.io/pmd-6.0.0/pmd_rules_java_bestpractices.html#junit4testshoulduseafterannotation)
-[ErrorProne - JUnit4TearDownNotRun](http://errorprone.info/bugpattern/JUnit4TearDownNotRun)
+- [PMD - JUnit4TestShouldUseAfterAnnotation](https://pmd.github.io/pmd-6.0.0/pmd_rules_java_bestpractices.html#junit4testshoulduseafterannotation)
+- [ErrorProne - JUnit4TearDownNotRun](http://errorprone.info/bugpattern/JUnit4TearDownNotRun)
 
 ### 테스트 내에서 Thread 를 생성했으나 join()을 하지 않고 테스트가 종료됨
 
@@ -156,8 +156,8 @@ R4 S5 P1
 
 ### Assertion 메소드를 사용하여 동일한 객체에 대해 equality 를 검증하는 경우
 R4 S5 P1
-[ErrorProne - TruthSelfEquals](http://errorprone.info/bugpattern/TruthSelfEquals)
-[ErrorProne - SelfEquals](http://errorprone.info/bugpattern/SelfEquals)
+- [ErrorProne - TruthSelfEquals](http://errorprone.info/bugpattern/TruthSelfEquals)
+- [ErrorProne - SelfEquals](http://errorprone.info/bugpattern/SelfEquals)
 
 ### IOException 를 발생시키는 메소드를 assertNull()에서 호출함 R4 S5 P1 MAPREDUCE-5421
 
