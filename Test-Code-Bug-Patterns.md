@@ -157,11 +157,12 @@ Java 프로그램 유닛 테스트는 일반적으로 다음 6개의 요구사�
     - **출처**
         - [MAPREDUCE-4983](https://issues.apache.org/jira/browse/MAPREDUCE-4983)
 
-21. assertThrows 에 넘겨진 코드에서 Exception 을 throw 한 이후 statement 가 남아있음
+21. assertThrows에 넘겨진 코드에서 Exception을 throw한 이후 statement가 남아있음
     - **구성 요소** : R2 S4 P1
-    - **설명** : The prior code for path construction fails on Windows due to the drive spec and backslashes. Using FileSystem#makeQualified against the local file system works cross-platform.
+    - **설명** : assertThrows에 파라미터로 넘겨진 lambda에 한개 이상의 statement가 있고, 내부에서 exception을 throw한다면 그 뒤의 statement들은 무시된다.
     - **출처**
         - [ErrorProne - AssertThrowsMultipleStatements](http://errorprone.info/bugpattern/AssertThrowsMultipleStatements)
+        
 22. for 문의 조건문을 잘못 입력하여 test 를 실행하지 못한 경우
     - **구성 요소** : R2, S4, P1
     - **설명** : for문을 조건문을 잘못 입력하여 test가 실행되지 않았다.
