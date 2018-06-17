@@ -1,5 +1,4 @@
 ## Test Code Bug Patterns
-
 1. JUnit3 에서 TestCase 클래스에 test method 가 없는 경우
     - **구성 요소** : R1, S1, P1
     - **설명** : JUnit JUnit TestCase를 상속하여 Test Class이나, 어떠한 test method도 구현되어 있지 않다.
@@ -233,10 +232,10 @@
         - [ErrorProne - SelfEquals](http://errorprone.info/bugpattern/SelfEquals)
 
 38. IOException 를 발생시키는 메소드를 assertNull()에서 호출함
-  - **구성 요소** : R4, S5, P1
-  - **설명** : 테스트 대상 코드가 null을 리턴하는 것에서 IOException을 throw하는 것으로 변경되어 Test code도 변경되어야 하는데 변경되지 않아 Test가 실패한다.
-  - **출처**
-      - [MAPREDUCE-5421](https://issues.apache.org/jira/browse/MAPREDUCE-5421)
+    - **구성 요소** : R4, S5, P1
+    - **설명** : 테스트 대상 코드가 null을 리턴하는 것에서 IOException을 throw하는 것으로 변경되어 Test code도 변경되어야 하는데 변경되지 않아 Test가 실패한다.
+    - **출처**
+        - [MAPREDUCE-5421](https://issues.apache.org/jira/browse/MAPREDUCE-5421)
 
 39. Thread.run() 내부에 assertion 이 있는 경우
     - **구성 요소** : R4, S7, P1
