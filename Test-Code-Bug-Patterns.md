@@ -1,4 +1,37 @@
+## 유닛 테스트의 구성요소
+### 요구사항 구성요소
+
+Java 프로그램 유닛 테스트는 일반적으로 다음 6개의 요구사항을 각각 독립적으로 만족
+해야 하므로, 각 요구사항 속성에  따라(R1-R6)를 구별할 수 있다.
+
+- R1: 사용자가 지시한 테스트 케이스가 실행되어야 함
+- R2: 상이한 환경에서도 동일한 테스트 코드는 동일한 테스트 케이스를 실행해야 함
+- R3: 유닛 테스트 코드의 실행은 상호 간 영향을 받지 않아야 함
+- R4: 실행 결과가 올바르지 않은 경우, 테스트 실패(test fail)로 관찰되어야 함
+- R5: 테스트 실행 결과가 올바른 경우, 테스트 성공(test pass)로 관찰되어야 함
+- R6: 테스트 결과가 사용자에게 올바르게 전달되어야 함.
+
+### 실행과정 구성요소
+
+유닛 테스트 케이스의 각 실행과정은 다음의 7가지 종류로 구분하여 범주(S1-S7)로 정의할 수 있다.
+- S1 (사용자 입력에 따른 유닛 테스트 구동): 테스트 프레임워크를 통하거나 사용자의 직접 조작을 통해 주어지는 명령을 해석하여, 실행해야 할 유닛 테스트 코드를 지정하여 시행
+- S2 (테스트 실행환경 설정): 유닛 테스트의 실행을 통제하기 위해 검증대상 모듈의 실행에 영향을 줄 수 있는 여러 변수(환경변수, 공유 변수 등)를 특정 값으로 설정
+- S3 (테스트 입력 지정): 테스트케이스의 검증 목적에 따라 조정한 테스트 입력 값을 지정
+- S4 (검증대상 모듈 실행): 지정된 테스트 입력 값으로 검증대상 모듈의 기능을 실행
+- S5 (테스트 실행 결과 검사): 실행 결과를 테스트 입력 값에 대한 기대 값과 비교하여 테스트 통과 유무를 판별
+- S6 (테스트 실행환경 설정 해제): S2에서 설정한 실행환경을 해제
+- S7 (사용자에게 테스트 결과 보고): 테스트 통과 유무를 테스트 프레임워크를 통하거나 혹은 직접 사용자에게 전달
+
+### 코드 구성요소
+
+유닛 테스트 코드는 다음과 같이 서로 다른 구조로 구성되므로, 각 코드 요소는 연관된 코드 부위에 따라 4가지 코드 구성요서(P1-P4)로 분류할 수 있다.
+- P1: 테스트케이스 별로 고유 시나리오를 정의하는 부위
+- P2: 연관된 테스트케이스를 아울러 하나의 테스트 스위트를 구성하기 위한 부위
+- P3: 검증대상 모듈이 호출하는 테스트 모형을 정의하거나, 테스트 모형 프레임워크와의 인터페이스 부위
+- P4: 테스팅 프레임워크 인터페이스 부위로, 테스트 프레임워크의 기능을 호출/참조하는 부위
+
 ## Test Code Bug Patterns
+
 1. JUnit3 에서 TestCase 클래스에 test method 가 없는 경우
     - **구성 요소** : R1, S1, P1
     - **설명** : JUnit JUnit TestCase를 상속하여 Test Class이나, 어떠한 test method도 구현되어 있지 않다.
@@ -287,3 +320,4 @@
         - [PMD - UseAssertNullInsteadAssertTrue](https://pmd.github.io/pmd-6.0.0/pmd_rules_java_bestpractices.html#useassertnullinsteadofasserttrue)
         - [Fb-contrib - UTAO_JUNIT_ASSERTION_ODDITIES_USE_ASSERT_NULL](http://fb-contrib.sourceforge.net/bugdescriptions.html#UTAO_JUNIT_ASSERTION_ODDITIES_USE_ASSERT_NULL)
         - [Fb-contrib - UTAO_TESTNG_ASSERTION_ODDITIES_USE_ASSERT_NULL](http://fb-contrib.sourceforge.net/bugdescriptions.html#UTAO_TESTNG_ASSERTION_ODDITIES_USE_ASSERT_NULL)
+
