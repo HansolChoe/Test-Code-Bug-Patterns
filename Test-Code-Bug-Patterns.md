@@ -212,7 +212,7 @@ Java 프로그램 유닛 테스트는 일반적으로 다음 6개의 요구사�
 
 30. 테스트 환경을 설정하는 동일한 메소드를 연속해 중복 실행하는 경우
     - **구성 요소** : R4, S2, P1
-    - **설명** : 테스트 환경을 설정하는 메소드를 연속해서 중복 호출하엿다.
+    - **설명** : 테스트 환경을 설정하는 메소드를 연속해서 중복 호출하였다.
     - **출처**
         - [HBASE-11698](https://issues.apache.org/jira/browse/HBASE-11698)
 
@@ -224,7 +224,7 @@ Java 프로그램 유닛 테스트는 일반적으로 다음 6개의 요구사�
 
 32. Test Method 내부에서 Assertion 메소드의 호출이 없는 경우
     - **구성 요소** : R4, S5, P1
-    - **설명** : 테스트에서 Assertion 메소드가 없는 경우이다. NullPointerException을 기대하는 경우 assertNotNull을 사용하는게 더 낫다.
+    - **설명** : 테스트에서 Assertion 메소드가 없는 경우이다. NullPointerException을 기대하는 경우 assertNotNull의 사용이 권장된다.
     - **출처**
         - [PMD - JUnitTestsShouldIncludeAssert](https://pmd.github.io/pmd-6.0.0/pmd_rules_java_bestpractices.html#junittestsshouldincludeassert)
         - [Fb-contrib - UTAO_JUNIT_ASSERTION_ODDITIES_NO_ASSERT](http://fb-contrib.sourceforge.net/bugdescriptions.html#UTAO_JUNIT_ASSERTION_ODDITIES_NO_ASSERT)
