@@ -308,14 +308,14 @@ Java 프로그램 유닛 테스트는 일반적으로 다음 6개의 요구사�
 
 44. assertTrue() 내부의 판별식에서 equals 를 호출하여 두 객체가 같음을 확인하는 경우
     - **구성 요소** : R6, S5, P1
-    - **설명** : AssertTrue() eqauls를 사용하여 두 객체가 같은지 확인하고 있다. 이를 위해 만들어진 AssertSame()을 사용하는 것이 좋다.
+    - **설명** : AssertTrue() eqauls를 사용하여 두 객체가 같은지 확인하고 있다. 이를 위해 만들어진 AssertSame()을 사용하는 것이 권장된다.
     - **출처**
         - [PMD - UseAssertEqualsInsteadOfAssertTrue](https://pmd.github.io/pmd-6.0.0/pmd_rules_java_bestpractices.html#useassertequalsinsteadofasserttrue)
         - [Fb-contrib - UTAO_JUNIT_ASSERTION_ODDITIES_USE_ASSERT_EQUALS](http://fb-contrib.sourceforge.net/bugdescriptions.html#UTAO_JUNIT_ASSERTION_ODDITIES_USE_ASSERT_EQUALS)
         - [Fb-contrib - UTAO_TESTNG_ASSERTION_ODDITIES_USE_ASSERT_EQUALS](http://fb-contrib.sourceforge.net/bugdescriptions.html#UTAO_JUNIT_ASSERTION_ODDITIES_USE_ASSERT_EQUALS)
 45. assertTrue() 내부의 판별식에서 test 하고자 하는 객체가 null 인지를 확인하는 경우
     - **구성 요소** : R6, S5, P1
-    - **설명** : AssertTrue() 내부에 null과의 비교하는 연산 사용하여 객체가 null인지 확인하고 있다. 이를 위해 만들어진 AssertNull()을 사용하는 것이 좋다.
+    - **설명** : AssertTrue() 내부에 null과의 비교하는 연산 사용하여 객체가 null인지 확인하고 있다. 이를 위해 만들어진 AssertNull()을 사용하는 것이 권장된다.
     - **출처**
         - [PMD - UseAssertNullInsteadAssertTrue](https://pmd.github.io/pmd-6.0.0/pmd_rules_java_bestpractices.html#useassertnullinsteadofasserttrue)
         - [Fb-contrib - UTAO_JUNIT_ASSERTION_ODDITIES_USE_ASSERT_NULL](http://fb-contrib.sourceforge.net/bugdescriptions.html#UTAO_JUNIT_ASSERTION_ODDITIES_USE_ASSERT_NULL)
