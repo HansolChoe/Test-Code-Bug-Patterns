@@ -56,7 +56,7 @@ public void testComplex() {
 }
 ```
 
-- **설명** : JUnit JUnit TestCase를 상속하여 Test Class이나, 어떠한 test method도 구현되어 있지 않다.
+- **설명** : JUnit TestCase를 상속하여 Test Class이나, 어떠한 test method도 구현되어 있지 않다.
 - **출처**
   - [FindBugs - IJU: TestCase has no tests (IJU_NO_TESTS)](http://findbugs.sourceforge.net/bugDescriptions.html#IJU_NO_TESTS)
 
@@ -251,7 +251,7 @@ public class JUnit4ClassAnnotationNonStaticPositiveCases {
 #### 10. JUnit3 에서 약속된 메소드 명이 잘못된 경우
 
 - **구성 요소** : R1, S2, S6, P1
-- **코드 예제
+- **코드 예제**
 
 ```java
 import junit.framework.TestCase;
@@ -271,6 +271,25 @@ public class JUnit3TestNotRunPositiveCases extends TestCase {
 #### 11. JDK9 로 테스트 코드를 컴파일했을 때 오류가 나는 Mockito code pattern 을 사용한 경우
 
 - **구성 요소** : R1, S3, P1
+- **코드 예제**
+
+```java
+class Foo {
+  <T> T getFirst(Iterable<T> xs) {
+    return xs.iterator().next();
+  }
+}
+class Test {
+  @Mock Foo f;
+
+  @Test
+  public void test() {
+    Iterable<Boolean> it = Arrays.asList(false);
+    when(f.getFirst(it)).thenReturn(false);
+  }
+}
+```
+
 - **설명** : Jdk9으로 해당 테스트 코드를 컴파일 하는 경우 성공해야할 test가 ClassCastException이 발생하게 되어 fail하게 된다.
 - **출처**
   - [ErrorProne - MockitoCast](http://errorprone.info/bugpattern/MockitoCast)
@@ -278,6 +297,18 @@ public class JUnit3TestNotRunPositiveCases extends TestCase {
 #### 12. 연속으로 동일한 Assertion 을 호출함
 
 - **구성 요소** : R1, S5, P1
+- **코드 예제**
+
+```java
+@@ -1071,7 +1070,7 @@ public class SystemPrivilegesPermissionTest extends BaseTestCase {
+         assertEquals(p1.hashCode(), p2.hashCode());
+         
+         assertTrue(p1.implies(p2));
+-        assertTrue(p1.implies(p2));
++        assertTrue(p2.implies(p1));
+     }
+```
+
 - **설명** : Check both "p1 implies p2" and "p2 implies p1" in  assertEquivalentPermissions(), instead of checking "p1 implies p2"  twice.
 - **출처**
   - [DERBY-6716](https://issues.apache.org/jira/browse/DERBY-6716)
@@ -286,19 +317,79 @@ public class JUnit3TestNotRunPositiveCases extends TestCase {
 
 - **구성 요소** : R1, S6, P1
 - **설명** : InputStream을 생성한 뒤 테스트 종료 전 close를 하지 않은 경우이다. (windows에서는 close 되지 않음)
+- **코드 예제**
+
+```java
+@Test
+   public void testBZip2Codec() throws IOException {
+     ...
+     // check the output to make sure it is what we expected.
+     // read the gzip file and verify the contents
+     BZip2Codec bz2Codec = new BZip2Codec();
+     InputStream bz2in = bz2Codec.createInputStream(new FileInputStream(f
+-        .getPath()
+-        + "/sub-foo.bz2"));
++        .getPath() + "/sub-foo.bz2"));
+     byte[] buf = new byte[1];
+     StringBuilder output = new StringBuilder();
+ 
+     while ((bz2in.read(buf)) > 0) {
+       output.append(new String(buf));
+     }
++    bz2in.close(); // Must close for windows to delete
+     assertEquals(expected, output.toString());
+ 
+     assertTrue("temp folder successfully deleted", FileUtil.rmr(f));
+   }
+```
+
 - **출처**
-  - [FLUME-349](https://issues.apache.org/jira/browse/FLUME-349)
+  - [FLUME-349](https://github.com/apache/flume/commit/41adc8af6f179f1222edc79190accca3ca7dddc7)
 
 #### 14. JUnit3 에서 tearDown()이 오버라이드되어 있으나, super.tearDown() 을 호출하지 않음
 
 - **구성 요소** : R1, S6, P3
 - **설명** : JUnit3 에서 setUp() method를 오버라이드할 때 반드시, super.tearDown()을 호출하여야 한다.
+- **코드 예제**
+
+```java
+public class BadTearDown extends TestCase {
+    protected void tearDown() throws Exception {
+        // no super.tearDown();
+    }
+}
+```
+
+```java
+public class CorrectTearDown extends TestCase {
+    protected void tearDown() throws Exception {
+        super.teraDown();
+    }
+}
+```
+
 - **출처**
   - [FindBugs - IJU: TestCase defines tearDown that doesn't call super.tearDown() (IJU_TEARDOWN_NO_SUPER)](http://findbugs.sourceforge.net/bugDescriptions.html#IJU_TEARDOWN_NO_SUPER)
 
 #### 15. JUnit4 에서 tearDown()을 정의하고 @After Annotation 이 없는 경우
 
-- **구성 요소** : R1 S6 P4
+- **구성 요소** : R1, S6, P4
+- **코드 예제**
+
+```java
+public class MyTest {
+    public void tearDown() {
+        bad();
+    }
+}
+public class MyTest2 {
+    @After 
+    public void tearDown() {
+        good();
+    }
+}
+```
+
 - **설명** : JUnit4 에서는 @After Annotation을 사용하여 테스트가 실행된 후에 실행되는 메서드를 정의한다.
 - **출처**
   - [PMD - JUnit4TestShouldUseAfterAnnotation](https://pmd.github.io/pmd-6.0.0/pmd_rules_java_bestpractices.html#junit4testshoulduseafterannotation)
@@ -307,6 +398,32 @@ public class JUnit3TestNotRunPositiveCases extends TestCase {
 #### 16. 테스트 내에서 Thread 를 생성했으나 join()을 하지 않고 테스트가 종료됨
 
 - **구성 요소** : R1, R2, S2, S3, S6, P1
+- **코드 예제**
+
+```java
+ public simpleThread(String argv[]) throws Exception {
+
+    ij.getPropertyArg(argv);
+    _connection = ij.startJBMS();
+    Connection conn = GetConnection();
+    Statement stmt = conn.createStatement();
+ 	...
++   Thread[] threads = {
++     new simpleThread(query,0),
++     new simpleThread(query,10000),
++     new simpleThread(query,10100),
++     new simpleThread(query,20000),
++   };
++
++   for (int i = 0; i < threads.length; i++) {
++     threads[i].join();
+    }
++
++   _connection.close();
++   _connection = null;
+  }
+```
+
 - **설명** : Simple Thread의 constructor부분, thread 생성 후 connection을 close하지 않는다.
 - **출처**
   - [DERBY-5708](https://issues.apache.org/jira/browse/DERBY-5708)
@@ -314,6 +431,15 @@ public class JUnit3TestNotRunPositiveCases extends TestCase {
 #### 17. org.junit.Test 를 import 하는 java 파일의 public class 명이 Test 로 시작되지 않음
 
 - **구성 요소** : R1, R3, S1, P4
+
+```java
+- public class SliderUtilsTest {
++ public class TestSliderUtils {
+    protected static final Logger log =
+-      LoggerFactory.getLogger(SliderUtilsTest.class);
++      LoggerFactory.getLogger(TestSliderUtils.class);
+```
+
 - **설명** : Maven에서 테스트명이 Test로 시작해야 Test Class로 인식한다 (Default).
 - **출처**
   - [SLIDER-41](https://issues.apache.org/jira/browse/SLIDER-41)
@@ -430,15 +556,15 @@ public class JUnit3TestNotRunPositiveCases extends TestCase {
 #### 33. assertNull() 안에 boxed primitive 가 파라미터로 넘겨지는 경우
 
 - **구성 요소** : R4, S5, P1
-- **설명** : Assertion method의 두번째 파라미터에 constant value를 넘긴 경우이다. 두번째 파라미터는 테스트하는 대상의 reference를 파라미터로 넘겨야 한다.
+- **설명** : assertNull() 안에 상수의 wrapper class가 파라미터로 넘겨지는 경우 항상 그 assertion은 항상 성공 pass한다.
 - **출처**
-  - [Fb-contrib - UTAO_JUNIT_ASSERTION_ODDITIES_ACTUAL_CONSTANT](http://fb-contrib.sourceforge.net/bugdescriptions.html#UTAO_JUNIT_ASSERTION_ODDITIES_ACTUAL_CONSTANT)
-  - [Fb-contrib -   UTAO_TESTING_ASSERTION_ODDITIES_ACTUAL_CONSTANT](http://fb-contrib.sourceforge.net/UTAO_TESTING_ASSERTION_ODDITIES_ACTUAL_CONSTANT)
+  - [Fb-contrib - UTAO_JUNIT_ASSERTION_ODDITIES_ACTUAL_CONSTANT](http://fb-contrib.sourceforge.net/bugdescriptions.html#UTAO_JUNIT_ASSERTION_ODDITIES_IMPOSSIBLE_NULL)
+  - [Fb-contrib -   UTAO_TESTING_ASSERTION_ODDITIES_ACTUAL_CONSTANT](http://fb-contrib.sourceforge.net/bugdescriptions.html#UTAO_TESTING_ASSERTION_ODDITIES_IMPOSSIBLE_NULL)
 
 #### 34. Test Framework를 사용하는 동시에 assert()를 사용하는 경우
 
 - **구성 요소** : R4, S5, P1
-- **설명** : Test framework를 사용하는 경우 framework에서 제공하는 assertion method를 사용해야한다.
+- **설명** : Test framework를 사용하는 경우 framework에서 제공하는 assertion method를 사용해야한다. Runtime flag에 따라서, Test framework가 assert()의 결과를 체크하지 못할 수 있어, 실패해야할 테스트가 성공할 수도 있게 된다.
 - **출처**
   - [ErrorProne - UseCorrectAssertInTests](http://errorprone.info/bugpattern/UseCorrectAssertInTests)
   - [Fb-contrib - UTAO_JUNIT_ASSERTION_ODDITIES_ASSERT_USED](http://fb-contrib.sourceforge.net/bugdescriptions.html#UTAO_JUNIT_ASSERTION_ODDITIES_ASSERT_USED)
@@ -471,7 +597,7 @@ public class JUnit3TestNotRunPositiveCases extends TestCase {
 - **구성 요소** : R4, S5, P1
 - **설명** : 테스트 대상 코드가 null을 리턴하는 것에서 IOException을 throw하는 것으로 변경되어 Test code도 변경되어야 하는데 변경되지 않아 Test가 실패한다.
 - **출처**
-- [MAPREDUCE-5421](https://issues.apache.org/jira/browse/MAPREDUCE-5421)
+  - [MAPREDUCE-5421](https://issues.apache.org/jira/browse/MAPREDUCE-5421)
 
 #### 39. Thread.run() 내부에 assertion 이 있는 경우
 
@@ -507,17 +633,17 @@ public class JUnit3TestNotRunPositiveCases extends TestCase {
   - [Fb-contrib - UTAO_TESTNG_ASSERTION_ODDITIES_INEXACT_DOUBLE](http://fb-contrib.sourceforge.net/bugdescriptions.html#UTAO_TESTNG_ASSERTION_ODDITIES_INEXACT_DOUBLE)
   - [ErrorProne - JUnit3FloatingPointComparisonWithoutDelta](http://errorprone.info/bugpattern/JUnit3FloatingPointComparisonWithoutDelta)
 
-#### 43. Try 블록 내부에서 fail()이 있으나, catch 블록에서 assertionError 를 catch 하는 경우
+#### 43. Try 블록 내부에서 fail()이 있으나, catch 블록에서 AssertionError 를 catch 하는 경우
 
 - **구성요소** : R5, S5, P1
-- **설명** : try block 안에서 fail()을 호출하고, assertionError catch하는 경우, assertion error가 catch하여, 테스트가 fail하지 않게 된다.
+- **설명** : Exception throw 되기를 기대하는 try block 안에서 실제로 Exception이 throw 되지 않아 테스트가 실패되야 하므로 fail()을 호출되었으나, catch block에서 AssertionError catch하는 경우, 테스트가 fail하지 않게 된다.
 - **출처**
   - [ErrorProne - AssertionFailureIgnored](http://errorprone.info/bugpattern/AssertionFailureIgnored)
 
 #### 44. assertTrue() 내부의 판별식에서 equals 를 호출하여 두 객체가 같음을 확인하는 경우
 
 - **구성 요소** : R6, S5, P1
-- **설명** : AssertTrue() eqauls()를 사용하여 두 객체가 같은지 확인하고 있다. 이를 위해 만들어진 AssertSame()을 사용하는 것이 권장된다.
+- **설명** : AssertTrue() eqauls()를 사용하여 두 객체가 같은지 확인하고 있다. equals()는 호출하는 객체가 null일 때 NullPointerException이 발생되므로, null-safe한 AssertSame()을 사용하는 것이 권장된다. 또한 Test의 실패시 AssertSame()을 사용하면 Framework가 더욱 상세한 오류 메세지를 출력하게 된다.
 - **출처**
   - [PMD - UseAssertEqualsInsteadOfAssertTrue](https://pmd.github.io/pmd-6.0.0/pmd_rules_java_bestpractices.html#useassertequalsinsteadofasserttrue)
   - [Fb-contrib - UTAO_JUNIT_ASSERTION_ODDITIES_USE_ASSERT_EQUALS](http://fb-contrib.sourceforge.net/bugdescriptions.html#UTAO_JUNIT_ASSERTION_ODDITIES_USE_ASSERT_EQUALS)
@@ -530,4 +656,4 @@ public class JUnit3TestNotRunPositiveCases extends TestCase {
 - **출처**
   - [PMD - UseAssertNullInsteadAssertTrue](https://pmd.github.io/pmd-6.0.0/pmd_rules_java_bestpractices.html#useassertnullinsteadofasserttrue)
   - [Fb-contrib - UTAO_JUNIT_ASSERTION_ODDITIES_USE_ASSERT_NULL](http://fb-contrib.sourceforge.net/bugdescriptions.html#UTAO_JUNIT_ASSERTION_ODDITIES_USE_ASSERT_NULL)
-  - [Fb-contrib - UTAO_TESTNG_ASSERTION_ODDITIES_USE_ASSERT_NULL
+  - [Fb-contrib - UTAO_TESTNG_ASSERTION_ODDITIES_USE_ASSERT_NULL](http://fb-contrib.sourceforge.net/bugdescriptions.html#UTAO_JUNIT_ASSERTION_ODDITIES_USE_ASSERT_NULL)
