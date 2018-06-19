@@ -451,6 +451,16 @@ public class MyTest2 {
 - **예제 코드**
 
 ```java
+/* DERBY-6088 */
+try {
+      insert.setObject( 1, null, ILLEGAL_JDBC_TYPES[ i ] );
++     fail( "setObject() should have failed." );
+    }
+      catch (SQLException se) { assertUnimplemented( se ); }
+    }
+```
+
+```java
 /* DERBY-3852*/
 JDBCDataSource.setBeanProperty(ds, "shutdownDatabase", "shutdown");
    try {
@@ -460,7 +470,6 @@ JDBCDataSource.setBeanProperty(ds, "shutdownDatabase", "shutdown");
      assertSQLState("XJ015", sqle);
    }
 ```
-
 - **출처**
   - [DERBY-6088](https://issues.apache.org/jira/browse/DERBY-6088)
   - [DERBY-3852](https://issues.apache.org/jira/browse/DERBY-3852)
