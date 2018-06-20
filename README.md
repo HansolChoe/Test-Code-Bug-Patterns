@@ -43,16 +43,22 @@ Java 프로그램 유닛 테스트는 일반적으로 다음 6개의 요구사�
 ```java
 import junit.framework.TestCase;
 
-public class AssertMethodInvokedFromRunMethod extends TestCase {
-public void testComplex() {
-    new Thread() {
-        @Override
-        public void run() {
-            assertTrue(true); // Appears to pass test
-            assertTrue(false); // AssertMethodFailedError occurs not test failure
-        }
-    }.start();
-}
+public class NoTestCase extends TestCase {
+//     This is not a test case because it does not start with 'test'.
+    public void simpleTest() {
+        //...
+    }
+
+    // This is not a test case because it takes two parameters.
+    public void testNotEquals(int i, int j) {
+        assertEquals(i != j, true);
+    }
+
+    // This is recognized as a test, but causes JUnit to fail
+    // when run because it is not public.
+    void testEquals() {
+        //...
+    }
 }
 ```
 
