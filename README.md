@@ -620,24 +620,7 @@ public class TestHelloWorld {
   - [Fb-contrib - UTAO_JUNIT_ASSERTION_ODDITIES_USE_ASSERT_NULL](http://fb-contrib.sourceforge.net/bugdescriptions.html#UTAO_JUNIT_ASSERTION_ODDITIES_USE_ASSERT_NULL)
   - [Fb-contrib - UTAO_TESTNG_ASSERTION_ODDITIES_USE_ASSERT_NULL](http://fb-contrib.sourceforge.net/bugdescriptions.html#UTAO_JUNIT_ASSERTION_ODDITIES_USE_ASSERT_NULL)
 
-#### 26. testPath 를 잘못 설정함
-
-- **구성 요소** : R1, S2, P1
-- **코드 예제**
-
-```java
-  public void testEquality() throws RepositoryException {
-- String stmt = "/" + jcrRoot + "/*[@" + jcrPrimaryType + "='" + nodeTypeName + "']";
-+ String stmt = "/" + jcrRoot + "/" + testPath + "/*[@" + jcrPrimaryType + "='" + nodeTypeName + "']";
-  try {
-  qm.createQuery(stmt, Query.XPATH);
-```
-
-- **설명** : test하는 폴더의 path를 잘못 설정하였다.
-- **출처**
-  - [JCR-524](https://issues.apache.org/jira/browse/JCR-524)
-
-#### 27. JUnit4 에서 test method 에 @Test Annotation이 없는 경우
+#### 26. JUnit4 에서 test method 에 @Test Annotation이 없는 경우
 
 - **구성 요소** : R1, S1, P4
 - **예제 코드**
@@ -660,7 +643,7 @@ public class MyTest {
   - [PMD - JUnit4TestShouldUseTestAnnotation](https://pmd.github.io/pmd-6.0.0/pmd_rules_java_bestpractices.html#junit4testshouldusetestannotation)
   - [ErrorProne - JUnit4TestNotRun](http://errorprone.info/bugpattern/JUnit4TestNotRun)
 
-#### 27. 연속으로 동일한 Assertion 을 호출함
+#### 27. assertionTrue() 의 파라미터로 넘어가야할 statement를 잘못 입력함
 
 - **구성 요소** : R1, S5, P1
 - **코드 예제**
@@ -678,6 +661,51 @@ public class MyTest {
 - **설명** : Check both "p1 implies p2" and "p2 implies p1" in  assertEquivalentPermissions(), instead of checking "p1 implies p2"  twice.
 - **출처**
   - [DERBY-6716](https://issues.apache.org/jira/browse/DERBY-6716)
+
+#### 28. xml query로 사용되는 변수의 값을 잘못 입력함
+
+- **구성 요소** : R1, S2, P1
+- **코드 예제**
+
+```java
+  pupblic class PredicatesTests extends AbstractQueryTest {
+    ...
+    public void testEquality() throws RepositoryException {
+-   String stmt = "/" + jcrRoot + "/*[@" + jcrPrimaryType + "='" + nodeTypeName + "']";
++   String stmt = "/" + jcrRoot + "/" + testPath + "/*[@" + jcrPrimaryType + "='" + nodeTypeName + "']";
+    try {
+      qm.createQuery(stmt, Query.XPATH);
+    ...
+  }
+  
+  public abstract class Abstract JCRTest extends JUnitTest {
+    ...
+    /***
+      *  Absolute path to the test root node.
+      */
+    protected String testRoot;
+    ...
+    protected void setUp throws Exception {
+      super.setUp();
+      testRoot = getProperty(RepositoryStub.PROP_TESTROOT);
+      if (testRoot == null) {
+        fail("Property '" + RepositoryStub.PROP_TESTROOT + "' is not defined.");
+      }
+      ...
+      
+      // cut off '/' to build testPath
+      testPath = testRoot.substring(1);
+      ...
+    }
+  }  
+```
+
+- **설명** : xml Query에 사용되는 stmt 변수에 testPath가 concatenate 되어야 하는데, PredicateTest class에서 이를 누락하였다.
+            (PredicatesTest does not respect testroot configuration property)
+- **출처**
+  - [JCR-524](https://github.com/apache/jackrabbit/commit/fb1cfae246e07e121cce9350309eaae619992de0)
+
+
 
 #### 28. FileInputStream 을 생성하였으나 close()를 호출하지 않음
 
@@ -760,7 +788,7 @@ public class MyTest {
 - **출처**
   - [SLIDER-41](https://issues.apache.org/jira/browse/SLIDER-41)
 
-#### 31. Exception 이 기대한 테스트케이스에서 Exception 이 발생하지 않아도 fail() 하지 않음
+#### 31. Exception을 기대한 테스트케이스에서 try문 안에 fail()이 
 
 - **구성 요소** : R1, R4, S5, P1
 - **설명** : Exception을 의도한 테스트케이스에서 의도 하지 않은 Exception이 발생하지 않은 경우 fail()이 없어서 테스트가 해당 부분을 넘어가게 된다.
@@ -875,23 +903,30 @@ JDBCDataSource.setBeanProperty(ds, "shutdownDatabase", "shutdown");
 - **출처**
   - [JCR-267](https://github.com/apache/jackrabbit/commit/7591c138037917c0dc6dc8d80fbeb2ebaa0cbd99)
 
-#### 36. Test Suite 에서 하나의 DB 를 사용하고, Table 이나 Sequence 를 생성한 뒤 Drop 하지 않은 경우
+#### 36. Test Suite 에서 하나의 DB 를 사용하고, Sequence 를 생성한 뒤 Drop 하지 않은 경우
 
 - **구성 요소** : R3, S2, S5, P2
-- **설명** : ‘alpha_seq’ 라는 sequence가 만들어지고 drop 되지 않아, 다음 테스트의 실행에 영향을 미친다.
+- **설명** : ‘alpha_seq’ 라는 sequence가 만들어지고 testCase가 종료되기 전 drop 되지 않아, 다음 테스트의 실행에 영향을 미친다.
+            lang.SequenceTest fails w/ "Seqeunce 'ALPHA_SEQ' already exists." on phoneME/cvm.
+            commit message : Do cleanup in testcases to make the testcases independent of running order.
+
 - **코드 설명**
 
 ```java
-         assertStatementError("42507", stmtBeta, "CREATE SEQUENCE alpha.alpha_seq3");
+  public class SequenceTest extends BaseJDBCTestCase {
+    public static Test suite() {
+      public void testCreateOtherSchemeSequence() throws SQLExecption {
+        ..
+        assertStatementError("42507", stmtBeta, "CREATE SEQUENCE alpha.alpha_seq3");
  
-+        // Cleanup:
-+        stmtAlpha.executeUpdate("DROP SEQUENCE alpha_seq");
++       // Cleanup:
++       stmtAlpha.executeUpdate("DROP SEQUENCE alpha_seq");
 +        
-         stmtAlpha.close();
+        stmtAlpha.close();
 ```
 
 - **출처**
-  - [DERBY-4393](https://issues.apache.org/jira/browse/DERBY-4393)
+  - [DERBY-4393](https://github.com/apache/derby/commit/c4caf0a622be2c2a64fae9c705bab70894bd953b)
 
 #### 37. Socket 을 생성하고 테스트가 끝나는 시점에 close() 하지 않은 경우
 
