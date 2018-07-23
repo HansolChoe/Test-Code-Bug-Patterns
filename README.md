@@ -643,7 +643,7 @@ public class MyTest {
   - [PMD - JUnit4TestShouldUseTestAnnotation](https://pmd.github.io/pmd-6.0.0/pmd_rules_java_bestpractices.html#junit4testshouldusetestannotation)
   - [ErrorProne - JUnit4TestNotRun](http://errorprone.info/bugpattern/JUnit4TestNotRun)
 
-#### 27. assertionTrue() 의 파라미터로 넘어가야할 statement를 잘못 입력함
+#### 27. assertionTrue() 의 파라미터로 넘겨야할 expression을 잘못 입력함
 
 - **구성 요소** : R1, S5, P1
 - **예제 코드**
@@ -788,7 +788,7 @@ public class MyTest {
 - **출처**
   - [SLIDER-41](https://issues.apache.org/jira/browse/SLIDER-41)
 
-#### 31. Exception을 기대한 테스트케이스에서 try문 안에 fail()이 
+#### 31. Exception을 기대한 테스트케이스에서 try블락 안에 fail()의 호출이 없음
 
 - **구성 요소** : R1, R4, S5, P1
 - **예제 코드**
@@ -1064,7 +1064,7 @@ Index: src/test/hdfs/org/apache/hadoop/hdfs/TestReadWhileWriting.java
 - **출처**
   - [HDFS-824](https://issues.apache.org/jira/browse/HDFS-824)
 
-#### 42. 테스트 환경을 설정하는 동일한 메소드를 연속해 중복 실행하는 경
+#### 42. 테스트 환경을 설정하는 동일한 메소드를 연속해 중복 실행하는 경우
 
 - **구성 요소** : R4, S2, P1
 - **설명** : 테스트 환경을 설정하는 메소드를 연속해서 중복 호출하였다.
@@ -1127,7 +1127,7 @@ Index: src/test/hdfs/org/apache/hadoop/hdfs/TestReadWhileWriting.java
   - [MAPREDUCE-5421](https://github.com/apache/hadoop/commit/e55d0ef515e75226cd774affab1b6b83a745457d)
 
 
-#### 45. assertTrue()로 넘겨야할 파라미터를 실수로 잘못 넘김
+#### 45. assertTrue()로 넘겨야할 파라미터를 잘못 넘김
 
 - **구성 요소** : R1, S5, P1
 - **예제 코드**
