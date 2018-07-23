@@ -85,7 +85,6 @@ public class BadSuiteMethod extends TestCase {
 #### 3. JUnit4 에서 suite()를 오버라이드한 경우
 
 - **구성 요소** : R1, S1, P2
-- **설명** : JUnit3 프레임워크는 suite() method를 사용하여 test suite를 구성하는데, JUnit4에서는 @RunWith(Suite.class) annotation을 사용하여야 한다.
 - **예제 코드**
 
 ```java
@@ -96,6 +95,7 @@ public class BadStaticSuite extends TestCase{
 }
 
 ```
+- **설명** : JUnit3 프레임워크는 suite() method를 사용하여 test suite를 구성하는데, JUnit4에서는 @RunWith(Suite.class) annotation을 사용하여야 한다.
 
 - **출처**
   - [PMD - JUnit4SuitesShouldUseSuiteAnnotation ](https://pmd.github.io/pmd-6.0.0/pmd_rules_java_bestpractices.html#junit4suitesshouldusesuiteannotation)
@@ -132,7 +132,7 @@ public class BadStaticSuite extends TestCase{
 #### 5. JUnit3 에서 setUp()이 오버라이드되어 있으나, super.setUp() 을 호출하지 않음
 
 - **구성 요소** : R1, S2, P3
-- **코드 예제**
+- **예제 코드**
 
 ```java
 public class BadSetUp extends TestCase {
@@ -162,7 +162,7 @@ public class CorrectSetUp extends TestCase {
 
 - **구성 요소** : R1, S2, P4
 - **설명** : JUnit4 에서는 @Before Annotation을 사용하여 테스트가 실행되기 전에 실행되는 메소드를 정의한다.
-- **코드 예제**
+- **예제 코드**
 
 ```java
 public class BadTest {
@@ -188,8 +188,7 @@ public class GoodTest {
 #### 7. JUnit4 의 @AfterClass나 @BeforeClass annotation을 사용하면서 method가 static이 아닌 경우
 
 - **구성 요소** : R1, S2, P4
-- **설명** : Beforeclass나 AfterClass annotation을 사용하는 메소드는 반드시 static 메소드로 선언되어야 한다.
-- **코드 예제**
+- **예제 코드**
 
 ```java
 public class JUnit4ClassAnnotationNonStaticPositiveCases {
@@ -204,6 +203,7 @@ public class JUnit4ClassAnnotationNonStaticPositiveCases {
   }
 }
 ```
+- **설명** : Beforeclass나 AfterClass annotation을 사용하는 메소드는 반드시 static 메소드로 선언되어야 한다.
 
 - **출처**
   - [ErrorProne - JUnit4ClassAnnotationNonStatic](http://errorprone.info/bugpattern/JUnit4ClassAnnotationNonStatic)
@@ -211,7 +211,7 @@ public class JUnit4ClassAnnotationNonStaticPositiveCases {
 #### 8. JUnit3 에서 약속된 메소드 명이 잘못된 경우
 
 - **구성 요소** : R1, S2, S6, P1
-- **코드 예제**
+- **예제 코드**
 
 ```java
 import junit.framework.TestCase;
@@ -231,7 +231,7 @@ public class JUnit3TestNotRunPositiveCases extends TestCase {
 #### 9. JDK9 로 테스트 코드를 컴파일했을 때 오류가 나는 Mockito code pattern 을 사용한 경우
 
 - **구성 요소** : R1, S3, P1
-- **코드 예제**
+- **예제 코드**
 
 ```java
 class Foo {
@@ -259,7 +259,7 @@ class Test {
 
 - **구성 요소** : R1, S6, P3
 - **설명** : JUnit3 에서 setUp() method를 오버라이드할 때 반드시, super.tearDown()을 호출하여야 한다.
-- **코드 예제**
+- **예제 코드**
 
 ```java
 public class BadTearDown extends TestCase {
@@ -283,7 +283,7 @@ public class CorrectTearDown extends TestCase {
 #### 11. JUnit4 에서 tearDown()을 정의하고 @After Annotation 이 없는 경우
 
 - **구성 요소** : R1, S6, P4
-- **코드 예제**
+- **예제 코드**
 
 ```java
 public class MyTest {
@@ -327,7 +327,7 @@ assertThat(xs).isEmpty();
 #### 13. Test Method 내부에서 Assertion 메소드의 호출이 없는 경우
 
 - **구성 요소** : R4, S5, P1
-- **코드 예제**
+- **예제 코드**
 
 ```java
 public class Foo extends TestCase {
@@ -369,7 +369,7 @@ public class ImpossibleNullTest {
 #### 15. Test Framework를 사용하는 동시에 assert()를 사용하는 경우
 
 - **구성 요소** : R4, S5, P1
-- **코드 예제**
+- **예제 코드**
 
 ```java
 public class AssertUsedTest {
@@ -391,7 +391,7 @@ public class AssertUsedTest {
 #### 16. Assertion method 에서 동일한 객체의 reference 가 서로 같은 지 확인하는 경우
 
 - **구성 요소** : R4, S5, P1
-- **코드 예제**
+- **예제 코드**
 
 ```java
 public class JUnitAssertSameCheckPositiveCase {
@@ -419,7 +419,7 @@ public class JUnitAssertSameCheckPositiveCase {
 #### 17. Mockito 를 사용하는 테스트에서 verify 메소드를 사용하지 않음
 
 - **구성 요소** : R4, S5, P1
-- **코드 예제**
+- **예제 코드**
 
 ```java
 // Calls to Mockito.when should always be accompanied by a call to a method like thenReturn.
@@ -435,7 +435,7 @@ when(mock.get())                     // oops!
 #### 18. Assertion 메소드를 사용하여 동일한 객체에 대해 equality 를 검증하는 경우
 
 - **구성 요소** : R4, S5, P1
-- **코드 예제**
+- **예제 코드**
 
 ```java
 public class TruthSelfEqualsPositiveCases {
@@ -458,7 +458,7 @@ public class TruthSelfEqualsPositiveCases {
 #### 19. Thread.run() 내부에 assertion 이 있는 경우
 
 - **구성 요소** : R4, S7, P1
-- **코드 예제**
+- **예제 코드**
 
 ```java
 public class TestNonExistentJob extends TestCase {
@@ -487,7 +487,7 @@ assertNull(runJob);
 #### 20. Assertion 메소드에서 test 하고자 하는 객체가 상수인 경우
 
 - **구성 요소** : R4, R5, S5, P1
-- **코드 예제**
+- **예제 코드**
 
 ```java
 import static com.google.common.truth.Truth.assertThat;
@@ -513,7 +513,7 @@ public class TruthConstantAssertsPositiveCases {
 #### 21. assert 구문에서 타입이 다른 두 객체의 equality 를 비교하는 경우
 
 - **구성 요소** : R4, R6, S5, P1
-- **코드 예제**
+- **예제 코드**
 
 ```java
 public class TruthIncompatibleTypePositiveCase  {
@@ -528,7 +528,7 @@ public class TruthIncompatibleTypePositiveCase  {
 #### 22. assertionEquals()에서 부동 소수점 비교에서 오차 허용 범위가 없는 경우
 
 - **구성 요소** : R5, S5, P1
-- **코드 예제**
+- **예제 코드**
 
 ```java
 import junit.framework.TestCase;
@@ -552,7 +552,7 @@ public class JUnit3FloatingPointComparisonWithoutDeltaCases extends TestCase {
 #### 23. Try 블록 내부에서 fail()이 있으나, catch 블록에서 AssertionError 를 catch 하는 경우
 
 - **구성요소** : R5, S5, P1
-- **코드 예제**
+- **예제 코드**
 
 ```java
 try {
@@ -571,7 +571,7 @@ try {
 #### 24. assertTrue() 내부의 판별식에서 equals 를 호출하여 두 객체가 같음을 확인하는 경우
 
 - **구성 요소** : R6, S5, P1
-- **코드 예제**
+- **예제 코드**
 
 ```java
 import org.testng.Assert;
@@ -597,7 +597,7 @@ public class TestHelloWorld {
 #### 25. assertTrue() 내부의 판별식에서 test 하고자 하는 객체가 null 인지를 확인하는 경우
 
 - **구성 요소** : R6, S5, P1
-- **코드 예제**
+- **예제 코드**
 
 ```java
 import org.testng.Assert;
@@ -646,7 +646,7 @@ public class MyTest {
 #### 27. assertionTrue() 의 파라미터로 넘어가야할 statement를 잘못 입력함
 
 - **구성 요소** : R1, S5, P1
-- **코드 예제**
+- **예제 코드**
 
 ```java
 @@ -1071,7 +1070,7 @@ public class SystemPrivilegesPermissionTest extends BaseTestCase {
@@ -665,7 +665,7 @@ public class MyTest {
 #### 28. xml query로 사용되는 변수의 값을 잘못 입력함
 
 - **구성 요소** : R1, S2, P1
-- **코드 예제**
+- **예제 코드**
 
 ```java
   pupblic class PredicatesTests extends AbstractQueryTest {
@@ -710,8 +710,7 @@ public class MyTest {
 #### 28. FileInputStream 을 생성하였으나 close()를 호출하지 않음
 
 - **구성 요소** : R1, S6, P1
-- **설명** : InputStream을 생성한 뒤 테스트 종료 전 close를 하지 않은 경우이다. (windows에서는 close 되지 않음)
-- **코드 예제**
+- **예제 코드**
 
 ```java
 @Test
@@ -737,6 +736,7 @@ public class MyTest {
    }
 ```
 
+- **설명** : InputStream을 생성한 뒤 테스트 종료 전 close를 하지 않은 경우이다. (windows에서는 close 되지 않음)
 - **출처**
   - [FLUME-349](https://github.com/apache/flume/commit/41adc8af6f179f1222edc79190accca3ca7dddc7)
 
@@ -791,7 +791,6 @@ public class MyTest {
 #### 31. Exception을 기대한 테스트케이스에서 try문 안에 fail()이 
 
 - **구성 요소** : R1, R4, S5, P1
-- **설명** : Exception을 의도한 테스트케이스에서 의도 하지 않은 Exception이 발생하지 않은 경우 fail()이 없어서 테스트가 해당 부분을 넘어가게 된다.
 - **예제 코드**
 
 ```java
@@ -814,6 +813,8 @@ JDBCDataSource.setBeanProperty(ds, "shutdownDatabase", "shutdown");
      assertSQLState("XJ015", sqle);
    }
 ```
+- **설명** : Exception을 의도한 테스트케이스에서 의도 하지 않은 Exception이 발생하지 않은 경우 fail()이 없어서 테스트가 해당 부분을 넘어가게 된다.
+
 - **출처**
   - [DERBY-6088](https://issues.apache.org/jira/browse/DERBY-6088)
   - [DERBY-3852](https://issues.apache.org/jira/browse/DERBY-3852)
@@ -840,8 +841,7 @@ JDBCDataSource.setBeanProperty(ds, "shutdownDatabase", "shutdown");
 #### 33. file path 의 경로를 '/'으로만 구분하는 경우
 
 - **구성 요소** : R2, S3, P1
-- **설명** : The prior code for path construction fails on Windows due to the drive spec and backslashes. Using FileSystem#makeQualified against the local file system works cross-platform.
-- **예제 코드**
+- **코드 **
 
 ```java
    private static void delete(File dir) throws IOException {
@@ -853,6 +853,7 @@ JDBCDataSource.setBeanProperty(ds, "shutdownDatabase", "shutdown");
      fs.delete(p, true);
    }
 ```
+- **설명** : The prior code for path construction fails on Windows due to the drive spec and backslashes. Using FileSystem#makeQualified against the local file system works cross-platform.
 
 - **출처**
   - [MAPREDUCE-4983](https://issues.apache.org/jira/browse/MAPREDUCE-4983)
@@ -870,7 +871,6 @@ JDBCDataSource.setBeanProperty(ds, "shutdownDatabase", "shutdown");
        runTest(parallelism);
      }
    }
-
 ```
 
 - **설명** : for문안의 조건문을 잘못 입력하여 test가 실행되지 않았다.
@@ -881,13 +881,9 @@ JDBCDataSource.setBeanProperty(ds, "shutdownDatabase", "shutdown");
 
 - **구성 요소** : R2, S6, P1
 
-- **설명** : FileInputStream을 생성한 뒤 테스트가 끝나기 전 try블락 안에 exception이 throw될 수 있는  메서드를 사용한 이후, finally 블록 안에 FileInputStream의 close()를 호출하지 않은 경우이다.
-
-  temporary files created by some jUnit test are not automatically removed
-
 - **코드 예제**
 
-```diff
+```java
   public void testSessionGetcontentHandler() throws RepositoryException, IOException, SAXException {
     FileInputSstrean in = new FileInputStream(file);
 -   exportRepository(SAVEBINARY, RECURSE);
@@ -899,6 +895,8 @@ JDBCDataSource.setBeanProperty(ds, "shutdownDatabase", "shutdown");
 +     in.close();
 + }
 ```
+- **설명** : FileInputStream을 생성한 뒤 테스트가 끝나기 전 try블락 안에 exception이 throw될 수 있는  메서드를 사용한 이후, finally 블록 안에 FileInputStream의 close()를 호출하지 않은 경우이다. 이경우 파일이 생성된 뒤에 
+  temporary files created by some jUnit test are not automatically removed
 
 - **출처**
   - [JCR-267](https://github.com/apache/jackrabbit/commit/7591c138037917c0dc6dc8d80fbeb2ebaa0cbd99)
@@ -931,7 +929,6 @@ JDBCDataSource.setBeanProperty(ds, "shutdownDatabase", "shutdown");
 #### 37. Socket 을 생성하고 테스트가 끝나는 시점에 close() 하지 않은 경우
 
 - **구성 요소** : R3, S6, P1
-- **설명** : socket을 생성하고 close를 하지 않아 다음 테스트 실행 결과에 영향을 미칠 수 있다.
 - **코드 설명**
 
 ```java
@@ -943,14 +940,14 @@ JDBCDataSource.setBeanProperty(ds, "shutdownDatabase", "shutdown");
 +   sockDir.close();
   }
 ```
+- **설명** : socket을 생성하고 close를 하지 않아 다음 테스트 실행 결과에 영향을 미칠 수 있다.
 
 - **출처**
   - [HDFS-7282](https://issues.apache.org/jira/browse/HDFS-7282)
 
-#### 38. 테스트 실행 도중 공유 변수의 값을 임의로 변경한 후 되돌리지 않음
+#### 38. 테스트 실행 도중 공유 변수의 값을 임의로 변경한 후 이를 초기 값으로 되돌리지 않음
 
 - **구성 요소** : R3, S6, P1, P2
-- **설명** : 이전 테스트에서의 설정이 다음 테스트에서도 적용되어 테스트 결과가 바뀌는 경우이다.
 - **예제 코드**
 
 ```java
@@ -973,6 +970,7 @@ public void testDefaultCodec() throws IOException, InterruptedException {
     ...
 }    
 ```
+- **설명** : 이전 테스트에서의 설정이 다음 테스트에서도 적용되어 테스트 결과가 바뀌는 경우이다.
 
 - **출처**
   - [FLUME-571](https://issues.apache.org/jira/browse/FLUME-571)
@@ -981,7 +979,6 @@ public void testDefaultCodec() throws IOException, InterruptedException {
 #### 39. Ant 1.9.3 에서 ant 가 test 결과를 file 을 수정할 수 있는 권한을 설정하지 않음
 
 - **구성 요소** : R3, S7, P4
-- **설명** : Ant 1.9.3 버전부터 Test result를 file에 쓰기 위해 ant.jar에 write permission이 필요해졌는데 관련 권한 설정이 실행되지 않았다.
 - **예제 코드**
 
 ```java
@@ -996,15 +993,14 @@ public void testDefaultCodec() throws IOException, InterruptedException {
 +
 
 ```
-
+- **설명** : Ant 1.9.3 버전부터 Test result를 file에 쓰기 위해 ant.jar에 write permission이 필요해졌는데 관련 권한 설정이 실행되지 않았다.
 - **출처**
   - [DERBY-6685](https://issues.apache.org/jira/browse/DERBY-6685)
 
 #### 40. 모든 test 가 실행되는지 확인하지 않음
 
-- **구성 요소** : R4, S1, P4
-- **설명** : 테스트를 실행시키는 부분에서 실제 의도하는대로 테스트가 실행되는지 확인하는 코드가 추가되지 않았다.
-- **테스트 코드**
+- **구성 요소** : R4, S1, P4-
+- **예제 코드**
 
 ```java
 public static void runTests( final SecurityEvaluator securityEvaluator, final PrefixMapping prefixMapping ) throws Exception
@@ -1026,8 +1022,7 @@ public static void runTests( final SecurityEvaluator securityEvaluator, final Pr
 }
 
 ```
-
-
+- **설명** : 테스트를 실행시키는 부분에서 실제 의도하는대로 테스트가 실행되는지 확인하는 코드가 추가되지 않았다.
 
 - **출처**
   - [JENA-795](https://github.com/apache/jena/commit/bbd9456f3dafb19c6603bc38b957b542d786f91f)
@@ -1035,8 +1030,7 @@ public static void runTests( final SecurityEvaluator securityEvaluator, final Pr
 #### 41. test 가 추가되기 전에 호출되어야 할 메소드 leasechecker.interruptAndJoin()이 누락됨
 
 - **구성 요소** : R4, S2, P1
-- **설명** : Test가 추가되기전에 반드시 호출되어야할 메소드가 누락되었다.
-- **코드 예제**
+- **예제 코드**
 
 ```java
 Index: src/test/hdfs/org/apache/hadoop/hdfs/TestReadWhileWriting.java
@@ -1065,15 +1059,16 @@ Index: src/test/hdfs/org/apache/hadoop/hdfs/TestReadWhileWriting.java
 
 
 ```
+- **설명** : Test가 추가되기전에 반드시 호출되어야할 메소드가 누락되었다.
 
 - **출처**
   - [HDFS-824](https://issues.apache.org/jira/browse/HDFS-824)
 
-#### 42. 테스트 환경을 설정하는 동일한 메소드를 연속해 중복 실행하는 경우
+#### 42. 테스트 환경을 설정하는 동일한 메소드를 연속해 중복 실행하는 경
 
 - **구성 요소** : R4, S2, P1
 - **설명** : 테스트 환경을 설정하는 메소드를 연속해서 중복 호출하였다.
-- **코드 예제**
+- **예제 코드**
 
 ```java
    c.setInt("hbase.ipc.client.connect.max.retries", 1);
@@ -1084,10 +1079,10 @@ Index: src/test/hdfs/org/apache/hadoop/hdfs/TestReadWhileWriting.java
 - **출처**
   - [HBASE-11698](https://issues.apache.org/jira/browse/HBASE-11698)
 
-#### 43. setup() 이나 teardown()에서 Exception 을 catch 하지 않음
+#### 43. setup() 이나 teardown()에서 Tree의 child node들을 제거하지 않음 (설정 초기화 오류)
 
 - **구성 요소** : R4, S2, S6, P2
-- **코드 예제**
+- **예제 코드**
 
 ```java
     protected Node cleanUpTestRoot(Session s) throws RepositoryException
@@ -1104,26 +1099,38 @@ Index: src/test/hdfs/org/apache/hadoop/hdfs/TestReadWhileWriting.java
     }
 ```
 
-- **설명** : 테스트 환경을 초기화하는 메서드에서 적절한 오류 처리가 이루어지지 않았다.
+- **설명** : 테스트 환경을 초기화하는 메서드에서 적절한 환경 설정(children node의 제거)이 이루어지지 않아서, 실제 유닛의 실행과는 상관없이 테스트가 실패한다.
+            JCR-505: TCK: AbstractJCRTest fails if setUp/tearDown cannot remove children of test node
 - **출처**
   - [JCR-505](https://issues.apache.org/jira/browse/JCR-505)
 
-#### 44. IOException 를 발생시키는 메소드를 assertNull()에서 호출함
+#### 44. IOException을 기대하는 메소드를 호출하나 그것을 테스트하지 않음
 
 - **구성 요소** : R4, S5, P1
-- **코드 예제**
-
-
+- **예제 코드**
+```Java
+   public void testGetInvalidJob() throws Exception {
+-    RunningJob runJob = new JobClient(getJobConf()).getJob(JobID.forName("job_0_0"));
+-    assertNull(runJob);
++    try {
++      RunningJob runJob = new JobClient(getJobConf()).getJob(JobID.forName("job_0_0"));
++      fail("Exception is expected to thrown ahead!");
++    } catch (Exception e) {
++      assertTrue(e instanceof IOException);
++      assertTrue(e.getMessage().contains("ApplicationNotFoundException"));
++    }
+   }
+```
 
 - **설명** : 테스트 대상 코드가 null을 리턴하는 것에서 IOException을 throw하는 것으로 변경되어 Test code도 변경되어야 하는데 변경되지 않아 Test가 실패한다.
 - **출처**
-  - [MAPREDUCE-5421](https://issues.apache.org/jira/browse/MAPREDUCE-5421)
+  - [MAPREDUCE-5421](https://github.com/apache/hadoop/commit/e55d0ef515e75226cd774affab1b6b83a745457d)
 
 
-#### 45. 연속으로 동일한 Assertion 을 호출함
+#### 45. assertTrue()로 넘겨야할 파라미터를 실수로 잘못 넘김
 
 - **구성 요소** : R1, S5, P1
-- **코드 예제**
+- **예제 코드**
 
 ```java
 @@ -1071,7 +1070,7 @@ public class SystemPrivilegesPermissionTest extends BaseTestCase {
