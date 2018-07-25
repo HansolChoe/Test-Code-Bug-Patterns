@@ -461,23 +461,17 @@ public class TruthSelfEqualsPositiveCases {
 - **예제 코드**
 
 ```java
-public class TestNonExistentJob extends TestCase {
-@@ -96,8 +89,13 @@ protected void tearDown() throws Exception { 
+public class AssertMehtodInvodedFromeRunMethod extends TestCase {
+  public void testComplex() {
+    new Thread() {
+      @Override
+      public void run() {
+        assertTrue(true); // Appears to pass test
+        assertTrue(false); // AssertMethodFailedError occurs not test failure
+      }
+    }.start();
   }
-    
-public void testGetInvalidJob() throws Exception {
-RunningJob runJob = new JobClient(getJobConf()).getJob(JobID.forName("job_0_0"));
-assertNull(runJob);
-+    try {
-+      RunningJob runJob = new JobClient(getJobConf()).getJob(JobID.forName("job_0_0"));
-+      fail("Exception is expected to thrown ahead!");
-+    } catch (Exception e) {
-+      assertTrue(e instanceof IOException);
-+      assertTrue(e.getMessage().contains("ApplicationNotFoundException"));
-+    }
-   }
-  }
-
+}
 ```
 
 - **설명** : JUnit의 경우, Test를 실행하는 스레드가 assertion method를 실행해야 한다. 그렇지 않은 경우 test의 실패로 이어지지 않는다.
@@ -649,18 +643,20 @@ public class MyTest {
 - **예제 코드**
 
 ```java
-@@ -1071,7 +1070,7 @@ public class SystemPrivilegesPermissionTest extends BaseTestCase {
-         assertEquals(p1.hashCode(), p2.hashCode());
-         
-         assertTrue(p1.implies(p2));
--        assertTrue(p1.implies(p2));
-+        assertTrue(p2.implies(p1));
-     }
+   public class SystemPrivilegesPermissionTest extends BaseTestCase {
+     private void assertEquivalentPermissions(Permission p1, Permission p2) {
+       ...
+       assertEquals(p1.hashCode(), p2.hashCode());
+       assertTrue(p1.implies(p2));
+-      assertTrue(p1.implies(p2));
++      assertTrue(p2.implies(p1));
+    }
+  }
 ```
 
 - **설명** : Check both "p1 implies p2" and "p2 implies p1" in  assertEquivalentPermissions(), instead of checking "p1 implies p2"  twice.
 - **출처**
-  - [DERBY-6716](https://issues.apache.org/jira/browse/DERBY-6716)
+  - [DERBY-6716](https://github.com/apache/derby/commit/132bd11c2376c2af80b76a9cf4d2692a83f17944)
 
 #### 28. xml query로 사용되는 변수의 값을 잘못 입력함
 
@@ -740,8 +736,7 @@ public class MyTest {
 - **출처**
   - [FLUME-349](https://github.com/apache/flume/commit/41adc8af6f179f1222edc79190accca3ca7dddc7)
 
-#### 29. 테스트 내에서 Thread 를 생성했으나 join()을 하지 않고 테스트가 종료됨
-
+#### 29. Thread를 생성하였으나, join이 호출되지 않고 테스트가 종료됨\
 - **구성 요소** :R4, S2, S3, S6, P1
 - **코드 예제**
 
@@ -769,9 +764,11 @@ public class MyTest {
   }
 ```
 
-- **설명** : Simple Thread의 constructor부분, thread 생성 후 connection을 close하지 않는다.
+- **설명** : 테스터는 5-8 라인에서 Exception이 발생되는 것을 기대하고 있고, 발견되지 않는 경우를 test fail로 정의하였다. 10-13 라인은 새로이 추가된 부분인데, 스레드를 생성하고 나서 join()을 호출하지 않았기 때문에, 결과가 나오기도 전에 테스트가 종료되어 버리게 되는 경우이다.
+
+
 - **출처**
-  - [DERBY-5708](https://issues.apache.org/jira/browse/DERBY-5708)
+  - [DERBY-5708](https://github.com/apache/derby/commit/90b6f2f0b58632bf8830f359ce445b97d80e215b)
 
 #### 30. org.junit.Test 를 import 하는 java 파일의 public class 명이 Test 로 시작되지 않음
 
@@ -1104,7 +1101,7 @@ Index: src/test/hdfs/org/apache/hadoop/hdfs/TestReadWhileWriting.java
 - **출처**
   - [JCR-505](https://issues.apache.org/jira/browse/JCR-505)
 
-#### 44. IOException을 기대하는 메소드를 호출하나 그것을 테스트하지 않음
+#### 44. Exception가 Throw될 수 있는 메소드를 호출하나 그것을 테스트하지 않음
 
 - **구성 요소** : R4, S5, P1
 - **예제 코드**
@@ -1127,21 +1124,3 @@ Index: src/test/hdfs/org/apache/hadoop/hdfs/TestReadWhileWriting.java
   - [MAPREDUCE-5421](https://github.com/apache/hadoop/commit/e55d0ef515e75226cd774affab1b6b83a745457d)
 
 
-#### 45. assertTrue()로 넘겨야할 파라미터를 잘못 넘김
-
-- **구성 요소** : R1, S5, P1
-- **예제 코드**
-
-```java
-@@ -1071,7 +1070,7 @@ public class SystemPrivilegesPermissionTest extends BaseTestCase {
-         assertEquals(p1.hashCode(), p2.hashCode());
-         
-         assertTrue(p1.implies(p2));
--        assertTrue(p1.implies(p2));
-+        assertTrue(p2.implies(p1));
-     }
-```
-
-- **설명** : Check both "p1 implies p2" and "p2 implies p1" in  assertEquivalentPermissions(), instead of checking "p1 implies p2"  twice.
-- **출처**
-  - [DERBY-6716](https://issues.apache.org/jira/browse/DERBY-6716)
