@@ -792,7 +792,7 @@ public class MyTest {
 
 ```java
 /* DERBY-6088 */
-try {
+    try {
       insert.setObject( 1, null, ILLEGAL_JDBC_TYPES[ i ] );
 +     fail( "setObject() should have failed." );
     }
@@ -803,12 +803,12 @@ try {
 ```java
 /* DERBY-3852*/
 JDBCDataSource.setBeanProperty(ds, "shutdownDatabase", "shutdown");
-   try {
-     ds.getConnection();
-+    fail("shutdown should raise exception");
-   } catch (SQLException sqle) {
-     assertSQLState("XJ015", sqle);
-   }
+    try {
+      ds.getConnection();
++     fail("shutdown should raise exception");
+    } catch (SQLException sqle) {
+      assertSQLState("XJ015", sqle);
+    }
 ```
 - **설명** : Exception을 의도한 테스트케이스에서 의도 하지 않은 Exception이 발생하지 않은 경우 fail()이 없어서 테스트가 해당 부분을 넘어가게 된다.
 
